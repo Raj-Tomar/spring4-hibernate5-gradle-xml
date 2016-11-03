@@ -79,7 +79,12 @@ public class EmployeeDaoImpl implements EmployeeDao{
 			session = sessionFactory.openSession();
 			bean = session.get(EmployeeBean.class, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Exception: "+e.getMessage());
+		} finally {
+			if(session.isOpen()){
+				session.close();
+			}
 		}
 		return bean;
 	}
