@@ -1,5 +1,6 @@
 package com.raj.employee.controller;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.apache.log4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.raj.beans.EmployeeBean;
 import com.raj.employee.service.EmployeeService;
@@ -36,6 +38,18 @@ public class EmployeeController {
 		};
 	}
 	
+	@GetMapping(value="/emplist")
+	@ResponseBody
+	public List<EmployeeBean> getEmployees(){
+		logger.info("emplist controller");
+		List<EmployeeBean> employeeList = null;
+		try {
+			employeeList = employeeSerivce.getAllEmployee();
+		} catch(Exception e) {
+			logger.error("Exception: "+e.getMessage());
+		}
+		return employeeList;
+	}
 	
 	@PostMapping(value="/saveOrUpdateEmployee")
 	public Callable<String> saveOrUpdateEmployee(@ModelAttribute("employee") EmployeeBean employee){
